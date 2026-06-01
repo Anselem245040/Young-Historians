@@ -1,26 +1,175 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-libre-baskerville), Georgia, serif;
+  --font-mono:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #faf9f6; /* Soft Off-White/Beige */
+  --foreground: oklch(0.145 0 0);
+  --card: #ffffff;
+  --card-foreground: oklch(0.145 0 0);
+  --popover: #ffffff;
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: #1b365d;
+  --primary-foreground: oklch(0.985 0 0);
+  --brand-navy: #1b365d;
+  --brand-gold: #f2a900;
+  --secondary: #f2a900;
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: #f3f2ee;
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: #f2a900;
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: #1b365d;
+  --radius: 1.25rem;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: 1.08rem;
+  line-height: 1.7;
+  color: var(--foreground);
+  background: var(--background);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+p,
+li,
+label,
+input,
+textarea,
+button {
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+small,
+.text-xs {
+  font-size: 0.92rem !important;
+}
+
+.dark {
+  --background: #0a0a0b;
+  --foreground: oklch(0.985 0 0);
+  --card: #111113;
+  --card-foreground: oklch(0.985 0 0);
+  --popover: #111113;
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: #f2a900;
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: #1a1a1c;
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.396 0.141 25.723);
+  --border: #1f1f22;
+  --input: #1f1f22;
+  --ring: #f2a900;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-brand-navy: var(--brand-navy);
+  --color-brand-gold: var(--brand-gold);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 8px);
+  --radius-md: calc(var(--radius) - 4px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 8px);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground transition-colors duration-300;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-marquee {
+    animation: marquee 40s linear infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-marquee {
+      animation: none;
+    }
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  .bg-academic-grid {
+    background-image: radial-gradient(
+      circle,
+      var(--border) 1px,
+      transparent 1px
+    );
+    background-size: 32px 32px;
+  }
+
+  .bg-paper-texture {
+    background-image: radial-gradient(
+      circle at 1px 1px,
+      var(--border) 0.5px,
+      transparent 0
+    );
+    background-size: 16px 16px;
+  }
+
+  .glass-card {
+    @apply bg-white/70 dark:bg-white/5 backdrop-blur-md border border-white/20 dark:border-white/10;
+  }
 }
